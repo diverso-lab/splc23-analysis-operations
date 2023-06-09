@@ -1,6 +1,6 @@
 FROM python:3.9-slim
 
-WORKDIR /flamapy-api
+WORKDIR /splc23-analysis-operations
 
 # Install dependencies
 COPY requirements.txt requirements.txt
