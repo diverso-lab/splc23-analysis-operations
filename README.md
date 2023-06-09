@@ -1,6 +1,3 @@
-# splc23-analysis-operations
-Code repository for SPLC'23 - Analysis Operations On The Run: Beyond Static Feature Model Analysis
-
 <div align="center">
 
   <a href="">[![Commits Syntax Checker](https://github.com/joszamama/splc23-analysis-operations/actions/workflows/commits.yml/badge.svg?branch=main)](https://github.com/joszamama/flamapy-api/actions/workflows/commits.yml)</a>
