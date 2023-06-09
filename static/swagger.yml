@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
-  title: FLAMA API
-  description: FLAMA API, a Python-based AAFM API for feature models analysis.
+  title: "SPLC'23 - Analysis Operations On The Run: Beyond Static Feature Model Analysis"
+  description: "SPLC'23 - Analysis Operations On The Run: Beyond Static Feature Model Analysis"
   version: "1.0"
 servers:
   - url: https://splc23-analysis-operations.onrender.com/
@@ -9,43 +9,6 @@ servers:
   - url: http://localhost:5000/
     description: Local server
 paths:
-  /api/v1/recommendations/:
-    post:
-      summary: Recommend products based on a query
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                model:
-                  type: string
-                  format: binary
-                products:
-                  type: string
-                  format: binary
-                query:
-                  type: string
-                  format: binary
-              required:
-                - model
-                - products
-                - query
-      responses:
-        '200':
-          description: Recommendations are valid
-        '404':
-          description: Recommendations are not valid
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-      tags:
-        - Recommendations
   /api/v1/recommendations/validate:
     post:
       summary: Check validity of recommendation objects
@@ -74,6 +37,43 @@ paths:
           description: Objects are valid
         '404':
           description: Objects are not valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+      tags:
+        - Recommendations
+  /api/v1/recommendations/:
+    post:
+      summary: Recommend products based on a query
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                model:
+                  type: string
+                  format: binary
+                products:
+                  type: string
+                  format: binary
+                query:
+                  type: string
+                  format: binary
+              required:
+                - model
+                - products
+                - query
+      responses:
+        '200':
+          description: Recommendations are valid
+        '404':
+          description: Recommendations are not valid
           content:
             application/json:
               schema:
