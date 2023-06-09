@@ -53,3 +53,86 @@ This operation computes the excluding restrictiveness of a set of features. Prov
 - `features` (string or array of strings): The name(s) of the feature(s) to compute excluding restrictiveness.
 
 In our experimentation, for feature set "sports" and "exchangelens", we obtained a result of 50%.
+
+### Compute Accessibility Table
+
+Endpoint: `/api/v1/recommendations/analysis/accessibility-table`
+
+This endpoint computes the table shown as "Table 2: Product Occurrences in Recommendations" based on the provided artifacts.
+
+**Parameters:**
+- `feature_model` (file): The feature model file.
+- `product_assortment` (file): The product assortment file.
+
+Based on our experimentation with the provided artifacts, the expected result should be a table with the following data:
+
+| pid | 𝑝1 | 𝑝2 | 𝑝3 | 𝑝4 | 𝑝5 | 𝑝6 | 𝑝7 | 𝑝8 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| #occurrences | 31 | 7 | 15 | 31 | 3 | 7 | 1 | 15 |
+
+Please note that the above table represents the product occurrences in the recommendations.
+
+### Compute Accessibility
+
+Endpoint: `/api/v1/recommendations/analysis/accessibility`
+
+This operation computes the accessibility of a product based on the provided feature model and product assortment.
+
+**Parameters:**
+- `feature_model` (file): The feature model file.
+- `product_assortment` (file): The product assortment file.
+- `product_name` (string): The name of the product to compute accessibility.
+
+In our experimentation, for product `p7`, we obtained an accessibility result of 14.89%. Similarly, for product `p7`, the accessibility result was 2.12%.
+
+Please note that the accessibility represents the percentage of times the given product appears in the recommendations.
+
+### Compute Catalog Coverage
+
+Endpoint: `/api/v1/recommendations/analysis/catalog`
+
+This operation computes the product catalog coverage for a given feature model and its associated product assortment.
+
+**Parameters:**
+- `feature_model` (file): The feature model file.
+- `product_assortment` (file): The product assortment file.
+
+In our experimentation, we obtained a catalog coverage of 100%, indicating that every product in the catalog is being recommended at least once.
+
+### Compute Visibility
+
+Endpoint: `/api/v1/recommendations/analysis/visibility`
+
+This operation computes the visibility of a product based on the provided feature model, product assortment, and the name of the product.
+
+**Parameters:**
+- `feature_model` (file): The feature model file.
+- `product_assortment` (file): The product assortment file.
+- `product_name` (string): The name of the product to compute visibility.
+
+In our experimentation, the visibility of product `p5` is calculated to be 6.25% (rounded up to 6.3% in the paper).
+
+### Compute Controversy
+
+Endpoint: `/api/v1/recommendations/analysis/controversy`
+
+This operation computes the controversy of a feature or a set of features based on the provided feature model, product assortment, and the name(s) of the feature(s).
+
+**Parameters:**
+- `feature_model` (file): The feature model file.
+- `product_assortment` (file): The product assortment file.
+- `features` (string or array of strings): The name(s) of the feature(s) to compute controversy.
+
+In our experimentation, for feature "waterproof", we obtained a controversy result of 50.0%.
+
+### Compute Global Controversy
+
+Endpoint: `/api/v1/recommendations/analysis/global-controversy`
+
+This operation computes the global controversy of all features based on the provided feature model and product assortment.
+
+**Parameters:**
+- `feature_model` (file): The feature model file.
+- `product_assortment` (file): The product assortment file.
+
+In our experimentation, we obtained a global controversy result of 25.39%.
