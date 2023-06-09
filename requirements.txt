@@ -1,5 +1,6 @@
 wheel
 Flask
+python-sat==0.1.8.dev6
 flamapy
 flamapy-fm
 flamapy-sat
