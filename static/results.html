@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPLC'23 - Analysis Operations On The Run</title>
+    <!-- Import Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <!-- Optional: Import custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Import Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+    <!-- Import jQuery and Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Handle click event on the navbar-toggler icon
+            $('.navbar-toggler').click(function () {
+                $('.navbar-collapse').slideToggle();
+            });
+        });
+    </script>
+</head>
+
+<body class="d-flex flex-column">
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Analysis operations</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/docs">Docs</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Home section -->
+    <section id="home" class="py-5">
+        <div class="container">
+            <h1 class="display-5">SPLC'23 - Analysis Operations On The Run: Beyond Static Feature Model Analysis</h1>
+            <br>
+            <h2 id="endpoints-documentation">Endpoints Documentation</h2>
+            <p>Before trying each operation, ensure that you have selected the appropriate server in the Swagger
+                UI&#39;s servers
+                dropdown in /docs. If you are executing the deployed API, select the Render server. If you have locally installed
+                the API,
+                choose the local server. To test each operation, simply click on the endpoint and click the &quot;Try
+                out&quot; button, which
+                allows file
+                upload.</p>
+            <h3 id="validate-recommendations">Validate Recommendations</h3>
+            <p>Endpoint: <code>/api/v1/recommendations/validate</code></p>
+            <p>This endpoint checks the validity of items based on the feature model, product assortment, and a query
+                over the
+                product assortment and feature model.</p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>feature_model</code> (file): The feature model file.</li>
+                <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>query</code> (string): The query to be performed on the product assortment and feature model.
+                </li>
+            </ul>
+            <h3 id="get-recommendations">Get Recommendations</h3>
+            <p>Endpoint: <code>/api/v1/recommendations/</code></p>
+            <p>This endpoint returns recommendations based on the feature model, product assortment, and a query over
+                the product
+                assortment and feature model. </p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>feature_model</code> (file): The feature model file.</li>
+                <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>query</code> (string): The query to be performed on the product assortment and feature model.
+                </li>
+            </ul>
+            <p>Based on our experimentation, for the provided artifacts and Query R1, the expected result is a list of
+                <code>p1</code>, <code>p3</code>, and <code>p6</code> in that specific order.
+            </p>
+            <h3 id="compute-restrictiveness">Compute Restrictiveness</h3>
+            <p>Endpoint: <code>/api/v1/recommendations/analysis/restrictiveness</code></p>
+            <p>This operation computes the restrictiveness of a feature list (or unique feature). Provide the feature
+                model, product
+                assortment, and the name of the feature in the <code>features</code> field.</p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>feature_model</code> (file): The feature model file.</li>
+                <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>features</code> (string or array of strings): The name(s) of the feature(s) to compute
+                    restrictiveness.
+                </li>
+            </ul>
+            <p>In our experimentation, for the feature &quot;sports&quot;, we obtained a result of 0.375 or 37.5%. For
+                feature sets,
+                you can add multiple features using the &quot;Add string item&quot; button. In our experimentation, for
+                feature sets
+                &quot;sports&quot; and &quot;exchangelens&quot;, we obtained a result of 25%.</p>
+            <h3 id="compute-excluding-restrictiveness">Compute Excluding Restrictiveness</h3>
+            <p>Endpoint: <code>/api/v1/recommendations/analysis/excluding-restrictiveness</code></p>
+            <p>This operation computes the excluding restrictiveness of a set of features. Provide the feature model,
+                product
+                assortment, and the set of features in the <code>features</code> field.</p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>feature_model</code> (file): The feature model file.</li>
+                <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>features</code> (string or array of strings): The name(s) of the feature(s) to compute
+                    excluding
+                    restrictiveness.</li>
+            </ul>
+            <p>In our experimentation, for feature set &quot;sports&quot; and &quot;exchangelens&quot;, we obtained a
+                result of 50%.
+            </p>
+            <h3 id="compute-accessibility-table">Compute Accessibility Table</h3>
+            <p>Endpoint: <code>/api/v1/recommendations/analysis/accessibility-table</code></p>
+            <p>This endpoint computes the table shown as &quot;Table 2: Product Occurrences in Recommendations&quot;
+                based on the
+                provided artifacts.</p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>feature_model</code> (file): The feature model file.</li>
+                <li><code>product_assortment</code> (file): The product assortment file.</li>
+            </ul>
+            <p>Based on our experimentation with the provided artifacts, the expected result should be a table with the
+                following
+                data:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>pid</th>
+                        <th>𝑝1</th>
+                        <th>𝑝2</th>
+                        <th>𝑝3</th>
+                        <th>𝑝4</th>
+                        <th>𝑝5</th>
+                        <th>𝑝6</th>
+                        <th>𝑝7</th>
+                        <th>𝑝8</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#occurrences</td>
+                        <td>31</td>
+                        <td>7</td>
+                        <td>15</td>
+                        <td>31</td>
+                        <td>3</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>15</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3 id="compute-accessibility">Compute Accessibility</h3>
+            <p>Endpoint: <code>/api/v1/recommendations/analysis/accessibility</code></p>
+            <p>This operation computes the accessibility of a product based on the provided feature model and product
+                assortment.
+            </p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>feature_model</code> (file): The feature model file.</li>
+                <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>product_name</code> (string): The name of the product to compute accessibility.</li>
+            </ul>
+            <p>In our experimentation, for product <code>p7</code>, we obtained an accessibility result of 14.89%.
+                Similarly, for
+                product <code>p7</code>, the accessibility result was 2.12%.</p>
+            <h3 id="compute-catalog-coverage">Compute Catalog Coverage</h3>
+            <p>Endpoint: <code>/api/v1/recommendations/analysis/catalog</code></p>
+            <p>This operation computes the product catalog coverage for a given feature model and its associated product
+                assortment.
+            </p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>feature_model</code> (file): The feature model file.</li>
+                <li><code>product_assortment</code> (file): The product assortment file.</li>
+            </ul>
+            <p>In our experimentation, we obtained a catalog coverage of 100%, indicating that every product in the
+                catalog is being
+                recommended at least once.</p>
+            <h3 id="compute-visibility">Compute Visibility</h3>
+            <p>Endpoint: <code>/api/v1/recommendations/analysis/visibility</code></p>
+            <p>This operation computes the visibility of a product based on the provided feature model, product
+                assortment, and the
+                name of the product.</p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>feature_model</code> (file): The feature model file.</li>
+                <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>product_name</code> (string): The name of the product to compute visibility.</li>
+            </ul>
+            <p>In our experimentation, the visibility of product <code>p5</code> is calculated to be 6.25% (rounded up
+                to 6.3% in
+                the paper).</p>
+            <h3 id="compute-controversy">Compute Controversy</h3>
+            <p>Endpoint: <code>/api/v1/recommendations/analysis/controversy</code></p>
+            <p>This operation computes the controversy of a feature or a set of features based on the provided feature
+                model,
+                product assortment, and the name(s) of the feature(s).</p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>feature_model</code> (file): The feature model file.</li>
+                <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>features</code> (string or array of strings): The name(s) of the feature(s) to compute
+                    controversy.</li>
+            </ul>
+            <p>In our experimentation, for feature &quot;waterproof&quot;, we obtained a controversy result of 50.0%.
+            </p>
+            <h3 id="compute-global-controversy">Compute Global Controversy</h3>
+            <p>Endpoint: <code>/api/v1/recommendations/analysis/global-controversy</code></p>
+            <p>This operation computes the global controversy of all features based on the provided feature model and
+                product
+                assortment.</p>
+            <p><strong>Parameters:</strong></p>
+            <ul>
+                <li><code>feature_model</code> (file): The feature model file.</li>
+                <li><code>product_assortment</code> (file): The product assortment file.</li>
+            </ul>
+            <p>In our experimentation, we obtained a global controversy result of 25.39%.</p>
+
+        </div>
+</body>
+
+</html>

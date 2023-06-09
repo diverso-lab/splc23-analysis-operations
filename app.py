@@ -25,7 +25,7 @@ app.register_blueprint(recommender_bp)
 
 @app.route("/", methods=['GET'])
 def home():
-    return app.send_static_file('home.html')
+    return app.send_static_file('results.html')
 
 if __name__ == '__main__':
     app.run()

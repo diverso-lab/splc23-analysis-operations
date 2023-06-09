@@ -70,8 +70,6 @@ Based on our experimentation with the provided artifacts, the expected result sh
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | #occurrences | 31 | 7 | 15 | 31 | 3 | 7 | 1 | 15 |
 
-Please note that the above table represents the product occurrences in the recommendations.
-
 ### Compute Accessibility
 
 Endpoint: `/api/v1/recommendations/analysis/accessibility`
@@ -84,8 +82,6 @@ This operation computes the accessibility of a product based on the provided fea
 - `product_name` (string): The name of the product to compute accessibility.
 
 In our experimentation, for product `p7`, we obtained an accessibility result of 14.89%. Similarly, for product `p7`, the accessibility result was 2.12%.
-
-Please note that the accessibility represents the percentage of times the given product appears in the recommendations.
 
 ### Compute Catalog Coverage
 
