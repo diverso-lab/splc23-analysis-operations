@@ -187,7 +187,19 @@ def excluding_restrictiveness(model, products, feature_list):
     :return: The excluding restrictiveness.
     """
 
-    return 100 - restrictiveness(model, products, feature_list)
+    message = check_recommendation_objects(model, products)
+    if message != 1:
+        return message
+
+    products, consistent_products = consistent_configurations(model, products)
+
+    valid_products = {}
+    for product, features in consistent_products.items():
+        # find all products that do not contain any of the features in the feature list
+        if not any(feature in features for feature in feature_list):
+            valid_products[product] = features
+
+    return len(valid_products) / len(products) * 100
 
 
 def accessibility_table(model, products):
