@@ -178,8 +178,19 @@ def restrictiveness(model, products, feature_list):
 
     return len(valid_products) / len(products) * 100
 
+def excluding_restrictiveness(model, products, feature_list):
+    """
+    Get the excluding restrictiveness for a given model and products.
+    :param model: The model file.
+    :param products: The products file.
+    :param feature_list: The list of features.
+    :return: The excluding restrictiveness.
+    """
 
-def accessibility(model, products):
+    return 100 - restrictiveness(model, products, feature_list)
+
+
+def accessibility_table(model, products):
     """
     Get the accessibility for a given model and products.
     :param model: The model file.
@@ -244,6 +255,71 @@ def accessibility(model, products):
 
     return product_count, results
 
+def accessibility(model, products, productoindicado):
+    """
+    Get the accessibility for a given model and products for a given product.
+    :param model: The model file.
+    :param products: The products file.
+    :param product: The product.
+    :return: The accessibility.
+    """
+    message = check_recommendation_objects(model, products)
+    if message != 1:
+        return message
+
+    dm = DiscoverMetamodels()
+
+    try:
+        fm = dm.use_transformation_t2m(model, "fm")
+        features = [feature.name for feature in fm.get_features()
+                    if feature.is_leaf()]
+    except:
+        error = "The model does not exist or is not a valid feature model."
+        return error
+
+    try:
+        combinations_list = []
+        for i in range(1, len(features)+1):
+            combos = combinations(features, i)
+            for c in combos:
+                combinations_list.append(c)
+    except:
+        error = "Could not generate combinations."
+        return error
+
+    try:
+        results = {}
+        for i in range(1, len(combinations_list)+1):
+            query = "./resources/recommender/query.csv"
+            with open(query, 'w', newline='') as csvfile:
+                csv_writer = csv.writer(csvfile)
+                for feature in combinations_list[i-1]:
+                    csv_writer.writerow([feature, "true"])
+
+            result = get_recommendations(model, products, query)
+            results[i] = result
+            os.remove(query)
+    except:
+        error = "Could not write query file."
+        return error
+
+    results = {key: value for key, value in results.items() if value}
+
+    product_count = {}
+    product_keys = []
+    with open(products, newline='') as csvfile:
+        csv_reader = csv.reader(csvfile)
+        for row in csv_reader:
+            product_keys.append(row[0].replace("product=", ""))
+
+    for key in product_keys:
+        product_count[key] = 0
+
+    for result in results.values():
+        for product in result:
+            product_count[product] += 1
+
+    return product_count[productoindicado] / len(results) * 100
 
 def catalog_coverage(model, products):
     """
@@ -257,7 +333,7 @@ def catalog_coverage(model, products):
     if message != 1:
         return message
 
-    products_count, _ = accessibility(model, products)
+    products_count, _ = accessibility_table(model, products)
 
     products_with_recommendations = 0
     for product, count in products_count.items():
@@ -291,7 +367,7 @@ def visibility(model, products, product):
     if message != 1:
         return message
 
-    _, results = accessibility(model, products)
+    _, results = accessibility_table(model, products)
     num = 0
     den = 0
     for key, value in results.items():

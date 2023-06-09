@@ -6,7 +6,7 @@ info:
 servers:
   - url: https://splc23-analysis-operations.onrender.com/
     description: Render.com server
-  - url: http://127.0.0.0:5000/
+  - url: http://localhost:5000/
     description: Local server
 paths:
   /api/v1/recommendations/:
@@ -121,7 +121,45 @@ paths:
                     type: string
       tags:
         - Recommendations
-  /api/v1/recommendations/analysis/accessibility:
+  /api/v1/recommendations/analysis/excluding-restrictiveness:
+    post:
+      summary: Compute the excluding restrictiveness of a feature list
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                model:
+                  type: string
+                  format: binary
+                products:
+                  type: string
+                  format: binary
+                features:
+                  type: array
+                  items:
+                    type: string
+              required:
+                - model
+                - products
+                - features
+      responses:
+        '200':
+          description: Excluding restrictiveness %
+        '404':
+          description: Objects are not valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+      tags:
+        - Recommendations
+  /api/v1/recommendations/analysis/accessibility-table:
     post:
       summary: Compute the accessibility of a feature list
       requestBody:
@@ -153,7 +191,43 @@ paths:
                   error:
                     type: string
       tags:
-        - Recommendations
+        - Recommendations 
+  /api/v1/recommendations/analysis/accessibility:
+    post:
+      summary: Compute the accessibility of a product
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                model:
+                  type: string
+                  format: binary
+                products:
+                  type: string
+                  format: binary
+                product:
+                  type: string
+              required:
+                - model
+                - products
+                - product
+      responses:
+        '200':
+          description: Accessibility %
+        '404':
+          description: Objects are not valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+      tags:
+        - Recommendations 
   /api/v1/recommendations/analysis/catalog:
     post:
       summary: Compute the catalog coverage of a recommender feature model
