@@ -51,7 +51,7 @@ Intended workflow explained:
 
 To get a local copy up and running follow these simple example steps.
 
-First, you will need to install [Docker](https://docs.docker.com/desktop/).
+First, you will need to install and start [Docker](https://docs.docker.com/desktop/).
 
 ### Instalation
 
@@ -75,7 +75,7 @@ This script will build, install and deploy the API in http://localhost:5000, you
 
 ### API Documentation
 
-All the documentation is registered with Swagger UI and OAS 3.0. It is accesible through /api/v1/docs.
+All the documentation is registered with Swagger UI and OAS 3.0. It is accesible through /api/docs.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
