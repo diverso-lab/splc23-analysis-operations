@@ -7,3 +7,4 @@ flamapy-sat
 flasgger
 flask-swagger-ui
 pytest
+pandas
