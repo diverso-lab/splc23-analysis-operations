@@ -30,7 +30,7 @@ This operation computes the restrictiveness of a feature list (or unique feature
 - `filter` (file): The filt file.
 - `features` (string or array of strings): The name(s) of the feature(s) to compute restrictiveness.
 
-In our experimentation, for the feature "sports", we obtained a result of 0.375 or 37.5%. For feature sets, you can add multiple features using the "Add string item" button. In our experimentation, for feature sets "sports" and "exchangelens", we obtained a result of 37.5%.
+In our experimentation, for the feature "sports", we obtained a result of 0.625 or 62.5%. For feature sets, you can add multiple features using the "Add string item" button. In our experimentation, for feature sets "sports" and "exchangelens", we obtained a result of 62.5%.
 
 ### Compute Excluding Restrictiveness
 
@@ -44,7 +44,7 @@ This operation computes the excluding restrictiveness of a set of features. Prov
 - `filter` (file): The filt file.
 - `features` (string or array of strings): The name(s) of the feature(s) to compute excluding restrictiveness.
 
-In our experimentation, for feature set "sports" and "exchangelens", we obtained a result of 50%.
+In our experimentation, for feature set "sports" and "exchangelens", we obtained a result of 0%.
 
 ### Compute Accessibility Table
 
