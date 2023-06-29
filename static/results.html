@@ -53,86 +53,74 @@
             <h2 id="endpoints-documentation">Endpoints Documentation</h2>
             <p>Before trying each operation, ensure that you have selected the appropriate server in the Swagger
                 UI&#39;s servers
-                dropdown in /docs. If you are executing the deployed API, select the Render server. If you have locally installed
+                dropdown in /docs. If you are executing the deployed API, select the Render server. If you have locally
+                installed
                 the API,
                 choose the local server. To test each operation, simply click on the endpoint and click the &quot;Try
                 out&quot; button, which
                 allows file
                 upload.</p>
-            <h3 id="validate-recommendations">Validate Recommendations</h3>
-            <p>Endpoint: <code>/api/v1/recommendations/validate</code></p>
-            <p>This endpoint checks the validity of items based on the feature model, product assortment, and a query
-                over the
-                product assortment and feature model.</p>
-            <p><strong>Parameters:</strong></p>
-            <ul>
-                <li><code>feature_model</code> (file): The feature model file.</li>
-                <li><code>product_assortment</code> (file): The product assortment file.</li>
-                <li><code>query</code> (string): The query to be performed on the product assortment and feature model.
-                </li>
-            </ul>
+            <h2 id="endpoints-documentation">Endpoints Documentation</h2>
+            <p>Before trying each operation, ensure that you have selected the appropriate server in the Swagger
+                UI&#39;s servers dropdown. If you are executing the deployed API, select the Render server. If you have
+                locally installed the API, choose the local server. </p>
+            <p>To test each operation, simply click on the endpoint and click the &quot;Try out&quot; button, which
+                allows file upload.</p>
             <h3 id="get-recommendations">Get Recommendations</h3>
             <p>Endpoint: <code>/api/v1/recommendations/</code></p>
             <p>This endpoint returns recommendations based on the feature model, product assortment, and a query over
-                the product
-                assortment and feature model. </p>
+                the product assortment and feature model. </p>
             <p><strong>Parameters:</strong></p>
             <ul>
                 <li><code>feature_model</code> (file): The feature model file.</li>
                 <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>filter</code> (file): The filt file.</li>
                 <li><code>query</code> (string): The query to be performed on the product assortment and feature model.
                 </li>
             </ul>
             <p>Based on our experimentation, for the provided artifacts and Query R1, the expected result is a list of
-                <code>p1</code>, <code>p3</code>, and <code>p6</code> in that specific order.
-            </p>
+                <code>p1</code>, <code>p3</code>, and <code>p6</code> in that specific order.</p>
             <h3 id="compute-restrictiveness">Compute Restrictiveness</h3>
             <p>Endpoint: <code>/api/v1/recommendations/analysis/restrictiveness</code></p>
             <p>This operation computes the restrictiveness of a feature list (or unique feature). Provide the feature
-                model, product
-                assortment, and the name of the feature in the <code>features</code> field.</p>
+                model, product assortment, and the name of the feature in the <code>features</code> field.</p>
             <p><strong>Parameters:</strong></p>
             <ul>
                 <li><code>feature_model</code> (file): The feature model file.</li>
                 <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>filter</code> (file): The filt file.</li>
                 <li><code>features</code> (string or array of strings): The name(s) of the feature(s) to compute
-                    restrictiveness.
-                </li>
+                    restrictiveness.</li>
             </ul>
             <p>In our experimentation, for the feature &quot;sports&quot;, we obtained a result of 0.375 or 37.5%. For
-                feature sets,
-                you can add multiple features using the &quot;Add string item&quot; button. In our experimentation, for
-                feature sets
-                &quot;sports&quot; and &quot;exchangelens&quot;, we obtained a result of 25%.</p>
+                feature sets, you can add multiple features using the &quot;Add string item&quot; button. In our
+                experimentation, for feature sets &quot;sports&quot; and &quot;exchangelens&quot;, we obtained a result
+                of 37.5%.</p>
             <h3 id="compute-excluding-restrictiveness">Compute Excluding Restrictiveness</h3>
             <p>Endpoint: <code>/api/v1/recommendations/analysis/excluding-restrictiveness</code></p>
             <p>This operation computes the excluding restrictiveness of a set of features. Provide the feature model,
-                product
-                assortment, and the set of features in the <code>features</code> field.</p>
+                product assortment, and the set of features in the <code>features</code> field.</p>
             <p><strong>Parameters:</strong></p>
             <ul>
                 <li><code>feature_model</code> (file): The feature model file.</li>
                 <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>filter</code> (file): The filt file.</li>
                 <li><code>features</code> (string or array of strings): The name(s) of the feature(s) to compute
-                    excluding
-                    restrictiveness.</li>
+                    excluding restrictiveness.</li>
             </ul>
             <p>In our experimentation, for feature set &quot;sports&quot; and &quot;exchangelens&quot;, we obtained a
-                result of 50%.
-            </p>
+                result of 50%.</p>
             <h3 id="compute-accessibility-table">Compute Accessibility Table</h3>
             <p>Endpoint: <code>/api/v1/recommendations/analysis/accessibility-table</code></p>
             <p>This endpoint computes the table shown as &quot;Table 2: Product Occurrences in Recommendations&quot;
-                based on the
-                provided artifacts.</p>
+                based on the provided artifacts.</p>
             <p><strong>Parameters:</strong></p>
             <ul>
                 <li><code>feature_model</code> (file): The feature model file.</li>
                 <li><code>product_assortment</code> (file): The product assortment file.</li>
             </ul>
             <p>Based on our experimentation with the provided artifacts, the expected result should be a table with the
-                following
-                data:</p>
+                following data:</p>
             <table>
                 <thead>
                     <tr>
@@ -155,8 +143,8 @@
                         <td>15</td>
                         <td>31</td>
                         <td>3</td>
-                        <td>7</td>
-                        <td>1</td>
+                        <td>15</td>
+                        <td>3</td>
                         <td>15</td>
                     </tr>
                 </tbody>
@@ -164,53 +152,50 @@
             <h3 id="compute-accessibility">Compute Accessibility</h3>
             <p>Endpoint: <code>/api/v1/recommendations/analysis/accessibility</code></p>
             <p>This operation computes the accessibility of a product based on the provided feature model and product
-                assortment.
-            </p>
+                assortment.</p>
             <p><strong>Parameters:</strong></p>
             <ul>
                 <li><code>feature_model</code> (file): The feature model file.</li>
                 <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>filter</code> (file): The filt file.</li>
                 <li><code>product_name</code> (string): The name of the product to compute accessibility.</li>
             </ul>
-            <p>In our experimentation, for product <code>p7</code>, we obtained an accessibility result of 14.89%.
-                Similarly, for
-                product <code>p7</code>, the accessibility result was 2.12%.</p>
+            <p>In our experimentation, for product <code>p6</code>, we obtained an accessibility result of 31.91%.
+                Similarly, for product <code>p7</code>, the accessibility result was 6.38%.</p>
             <h3 id="compute-catalog-coverage">Compute Catalog Coverage</h3>
             <p>Endpoint: <code>/api/v1/recommendations/analysis/catalog</code></p>
             <p>This operation computes the product catalog coverage for a given feature model and its associated product
-                assortment.
-            </p>
+                assortment.</p>
             <p><strong>Parameters:</strong></p>
             <ul>
                 <li><code>feature_model</code> (file): The feature model file.</li>
                 <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>filter</code> (file): The filt file.</li>
             </ul>
             <p>In our experimentation, we obtained a catalog coverage of 100%, indicating that every product in the
-                catalog is being
-                recommended at least once.</p>
+                catalog is being recommended at least once.</p>
             <h3 id="compute-visibility">Compute Visibility</h3>
             <p>Endpoint: <code>/api/v1/recommendations/analysis/visibility</code></p>
             <p>This operation computes the visibility of a product based on the provided feature model, product
-                assortment, and the
-                name of the product.</p>
+                assortment, and the name of the product.</p>
             <p><strong>Parameters:</strong></p>
             <ul>
                 <li><code>feature_model</code> (file): The feature model file.</li>
                 <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>filter</code> (file): The filt file.</li>
                 <li><code>product_name</code> (string): The name of the product to compute visibility.</li>
             </ul>
-            <p>In our experimentation, the visibility of product <code>p5</code> is calculated to be 6.25% (rounded up
-                to 6.3% in
-                the paper).</p>
+            <p>In our experimentation, the visibility of product <code>p5</code> is calculated to be 16.66% (rounded up
+                to 16.7% in the paper).</p>
             <h3 id="compute-controversy">Compute Controversy</h3>
             <p>Endpoint: <code>/api/v1/recommendations/analysis/controversy</code></p>
             <p>This operation computes the controversy of a feature or a set of features based on the provided feature
-                model,
-                product assortment, and the name(s) of the feature(s).</p>
+                model, product assortment, and the name(s) of the feature(s).</p>
             <p><strong>Parameters:</strong></p>
             <ul>
                 <li><code>feature_model</code> (file): The feature model file.</li>
                 <li><code>product_assortment</code> (file): The product assortment file.</li>
+                <li><code>filter</code> (file): The filt file.</li>
                 <li><code>features</code> (string or array of strings): The name(s) of the feature(s) to compute
                     controversy.</li>
             </ul>
@@ -219,16 +204,15 @@
             <h3 id="compute-global-controversy">Compute Global Controversy</h3>
             <p>Endpoint: <code>/api/v1/recommendations/analysis/global-controversy</code></p>
             <p>This operation computes the global controversy of all features based on the provided feature model and
-                product
-                assortment.</p>
+                product assortment.</p>
             <p><strong>Parameters:</strong></p>
             <ul>
                 <li><code>feature_model</code> (file): The feature model file.</li>
+                <li><code>filter</code> (file): The filt file.</li>
                 <li><code>product_assortment</code> (file): The product assortment file.</li>
             </ul>
             <p>In our experimentation, we obtained a global controversy result of 25.39%.</p>
 
-        </div>
 </body>
 
 </html>

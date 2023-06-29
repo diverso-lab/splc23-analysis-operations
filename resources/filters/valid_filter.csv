@@ -1,0 +1,6 @@
+landscape,True,accumulator=h
+portrait,True,resolution=h
+sports,True,fps=h
+lightweight,True,weight=l
+exchangelens,True,mount!=no
+waterproof,True,isolation=h
