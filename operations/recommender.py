@@ -78,7 +78,7 @@ def get_restrictiveness_of_features(model, products, filt, query):
     products_df = pd.read_csv(products, header=None)
     product_list = get_recommendations(model, products, filt, query)
 
-    return len(product_list) / len(products_df)
+    return 1 - (len(product_list) / len(products_df))
 
 
 def get_reverse_restrictiveness_of_features(model, products, filt, query):
@@ -127,7 +127,7 @@ def get_reverse_restrictiveness_of_features(model, products, filt, query):
             products.append(row[0])
         is_valid = True
 
-    return len(products) / len(products_df)
+    return 1 - (len(products) / len(products_df))
 
 
 def get_accessibility_table_of_products(model, products, filt):
@@ -337,12 +337,10 @@ def get_controversy_of_features(model, products, filt, query):
 
     feature_list = []
     query_df = pd.read_csv(query, header=None)
-    print(query_df)
     for index, row in query_df.iterrows():
         if row[1] == True:
             feature_list.append(row[0])
 
-    print(feature_list)
     count = 0
     for query in controversial_queries:
         if set(feature_list).issubset(query):
