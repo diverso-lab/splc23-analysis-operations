@@ -1,6 +1,6 @@
 import os
 from flask import Blueprint, request, jsonify
-from operations.recommender import check_recommendation_objects, get_recommendations, restrictiveness, excluding_restrictiveness, accessibility_table, accessibility, catalog_coverage, visibility, controversy, global_controversy
+from operations.recommender import *
 
 recommender_bp = Blueprint('recommender_bp', __name__,
                            url_prefix='/api/v1/recommendations')
@@ -8,43 +8,8 @@ recommender_bp = Blueprint('recommender_bp', __name__,
 MODEL_FOLDER = './resources/models/'
 PRODUCT_FOLDER = './resources/products/'
 CONFIGURATION_FOLDER = './resources/configurations/'
+FILTER_FOLDER = './resources/filters/'
 RECOMMENDER_FOLDER = './resources/recommendations/'
-
-
-@recommender_bp.route('/validate', methods=['POST'])
-def validate():
-
-    # Get files
-    model = request.files['model']
-    products = request.files['products']
-    query = request.files['query']
-
-    # Check if files are provided
-    if model.filename != '' and products.filename != '' and query.filename != '':
-
-        # Save files
-        model.save(os.path.join(MODEL_FOLDER, model.filename))
-        products.save(os.path.join(PRODUCT_FOLDER, products.filename))
-        query.save(os.path.join(PRODUCT_FOLDER, query.filename))
-
-        # Validate
-        result = check_recommendation_objects(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
-            PRODUCT_FOLDER, products.filename), os.path.join(PRODUCT_FOLDER, query.filename))
-
-        # Remove files
-        os.remove(os.path.join(MODEL_FOLDER, model.filename))
-        os.remove(os.path.join(PRODUCT_FOLDER, products.filename))
-        os.remove(os.path.join(PRODUCT_FOLDER, query.filename))
-
-        # Return result
-        if (result == 1):
-            return 'Objects are valid'
-        else:
-            return result
-
-    # If no file is provided
-    else:
-        return 'No file uploaded'
 
 
 @recommender_bp.route('/', methods=['POST'])
@@ -53,27 +18,30 @@ def recommend():
     # Get files
     model = request.files['model']
     products = request.files['products']
+    filt = request.files['filter']
     query = request.files['query']
 
     # Check if files are provided
-    if model.filename != '' and products.filename != '' and query.filename != '':
+    if model.filename != '' and products.filename != '' and query.filename != '' and filt.filename != '':
 
         # Save files
         model.save(os.path.join(MODEL_FOLDER, model.filename))
         products.save(os.path.join(PRODUCT_FOLDER, products.filename))
+        filt.save(os.path.join(FILTER_FOLDER, filt.filename))
         query.save(os.path.join(PRODUCT_FOLDER, query.filename))
 
         # Result
         result = get_recommendations(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
-            PRODUCT_FOLDER, products.filename), os.path.join(PRODUCT_FOLDER, query.filename))
+            PRODUCT_FOLDER, products.filename), os.path.join(FILTER_FOLDER, filt.filename), os.path.join(PRODUCT_FOLDER, query.filename))
 
         # Remove files
         os.remove(os.path.join(MODEL_FOLDER, model.filename))
         os.remove(os.path.join(PRODUCT_FOLDER, products.filename))
+        os.remove(os.path.join(FILTER_FOLDER, filt.filename))
         os.remove(os.path.join(PRODUCT_FOLDER, query.filename))
 
         # Return result
-        return result
+        return jsonify(result)
 
     # If no file is provided
     else:
@@ -86,25 +54,27 @@ def restrictiveness_route():
     # Get files
     model = request.files['model']
     products = request.files['products']
-    features = request.form.getlist('features')
-
-    # split by comma
-    features = [x.strip() for x in features[0].split(',')]
+    filt = request.files['filter']
+    features = request.files['features']
 
     # Check if files are provided
-    if model.filename != '' and products.filename != '' and len(features) != 0:
+    if model.filename != '' and products.filename != '' and filt.filename != '' and features.filename != '':
 
         # Save files
         model.save(os.path.join(MODEL_FOLDER, model.filename))
         products.save(os.path.join(PRODUCT_FOLDER, products.filename))
+        filt.save(os.path.join(FILTER_FOLDER, filt.filename))
+        features.save(os.path.join(PRODUCT_FOLDER, features.filename))
 
         # Result
-        result = restrictiveness(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
-            PRODUCT_FOLDER, products.filename), features)
+        result = get_restrictiveness_of_features(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
+            PRODUCT_FOLDER, products.filename), os.path.join(FILTER_FOLDER, filt.filename), os.path.join(PRODUCT_FOLDER, features.filename))
 
         # Remove files
         os.remove(os.path.join(MODEL_FOLDER, model.filename))
         os.remove(os.path.join(PRODUCT_FOLDER, products.filename))
+        os.remove(os.path.join(FILTER_FOLDER, filt.filename))
+        os.remove(os.path.join(PRODUCT_FOLDER, features.filename))
 
         # Return result
         return str(result)
@@ -119,25 +89,27 @@ def exclude_restrictiveness_route():
     # Get files
     model = request.files['model']
     products = request.files['products']
-    features = request.form.getlist('features')
-
-    # split by comma
-    features = [x.strip() for x in features[0].split(',')]
+    filt = request.files['filter']
+    features = request.files['features']
 
     # Check if files are provided
-    if model.filename != '' and products.filename != '' and len(features) != 0:
+    if model.filename != '' and products.filename != '' and filt.filename != '' and features.filename != '':
 
         # Save files
         model.save(os.path.join(MODEL_FOLDER, model.filename))
         products.save(os.path.join(PRODUCT_FOLDER, products.filename))
+        filt.save(os.path.join(FILTER_FOLDER, filt.filename))
+        features.save(os.path.join(PRODUCT_FOLDER, features.filename))
 
         # Result
-        result = excluding_restrictiveness(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
-            PRODUCT_FOLDER, products.filename), features)
+        result = get_reverse_restrictiveness_of_features(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
+            PRODUCT_FOLDER, products.filename), os.path.join(FILTER_FOLDER, filt.filename), os.path.join(PRODUCT_FOLDER, features.filename))
 
         # Remove files
         os.remove(os.path.join(MODEL_FOLDER, model.filename))
         os.remove(os.path.join(PRODUCT_FOLDER, products.filename))
+        os.remove(os.path.join(FILTER_FOLDER, filt.filename))
+        os.remove(os.path.join(PRODUCT_FOLDER, features.filename))
 
         # Return result
         return str(result)
@@ -153,21 +125,24 @@ def accessibility_table_route():
     # Get files
     model = request.files['model']
     products = request.files['products']
+    filt = request.files['filter']
 
     # Check if files are provided
-    if model.filename != '' and products.filename != '':
+    if model.filename != '' and products.filename != '' and filt.filename != '':
 
         # Save files
         model.save(os.path.join(MODEL_FOLDER, model.filename))
         products.save(os.path.join(PRODUCT_FOLDER, products.filename))
+        filt.save(os.path.join(FILTER_FOLDER, filt.filename))
 
         # Result
-        results, _ = accessibility_table(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
-            PRODUCT_FOLDER, products.filename))
+        results, _ = get_accessibility_table_of_products(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
+            PRODUCT_FOLDER, products.filename), os.path.join(FILTER_FOLDER, filt.filename))
 
         # Remove files
         os.remove(os.path.join(MODEL_FOLDER, model.filename))
         os.remove(os.path.join(PRODUCT_FOLDER, products.filename))
+        os.remove(os.path.join(FILTER_FOLDER, filt.filename))
 
         # Return result
         return str(results)
@@ -182,22 +157,25 @@ def accessibility_route():
     # Get files
     model = request.files['model']
     products = request.files['products']
+    filt = request.files['filter']
     product = request.form.getlist('product')
 
     # Check if files are provided
-    if model.filename != '' and products.filename != '':
+    if model.filename != '' and products.filename != '' and filt.filename != '' and len(product) > 0:
 
         # Save files
         model.save(os.path.join(MODEL_FOLDER, model.filename))
         products.save(os.path.join(PRODUCT_FOLDER, products.filename))
+        filt.save(os.path.join(FILTER_FOLDER, filt.filename))
 
         # Result
-        results = accessibility(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
-            PRODUCT_FOLDER, products.filename), product[0])
+        results = get_accessibility_of_products(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
+            PRODUCT_FOLDER, products.filename), product[0], os.path.join(FILTER_FOLDER, filt.filename))
 
         # Remove files
         os.remove(os.path.join(MODEL_FOLDER, model.filename))
         os.remove(os.path.join(PRODUCT_FOLDER, products.filename))
+        os.remove(os.path.join(FILTER_FOLDER, filt.filename))
 
         # Return result
         return str(results)
@@ -212,21 +190,24 @@ def catalog_coverage_route():
     # Get files
     model = request.files['model']
     products = request.files['products']
+    filt = request.files['filter']
 
     # Check if files are provided
-    if model.filename != '' and products.filename != '':
+    if model.filename != '' and products.filename != '' and filt.filename != '':
 
         # Save files
         model.save(os.path.join(MODEL_FOLDER, model.filename))
         products.save(os.path.join(PRODUCT_FOLDER, products.filename))
+        filt.save(os.path.join(FILTER_FOLDER, filt.filename))
 
         # Result
-        result = catalog_coverage(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
-            PRODUCT_FOLDER, products.filename))
+        result = get_product_catalog_coverage(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
+            PRODUCT_FOLDER, products.filename), os.path.join(FILTER_FOLDER, filt.filename))
 
         # Remove files
         os.remove(os.path.join(MODEL_FOLDER, model.filename))
         os.remove(os.path.join(PRODUCT_FOLDER, products.filename))
+        os.remove(os.path.join(FILTER_FOLDER, filt.filename))
 
         # Return result
         return str(result)
@@ -241,23 +222,25 @@ def visibility_route():
     # Get files
     model = request.files['model']
     products = request.files['products']
-    # get string product
+    filt = request.files['filter']
     product = request.form.getlist('product')
 
     # Check if files are provided
-    if model.filename != '' and products.filename != '':
+    if model.filename != '' and products.filename != '' and filt.filename != '' and len(product) > 0:
 
         # Save files
         model.save(os.path.join(MODEL_FOLDER, model.filename))
         products.save(os.path.join(PRODUCT_FOLDER, products.filename))
+        filt.save(os.path.join(FILTER_FOLDER, filt.filename))
 
         # Result
-        result = visibility(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
-            PRODUCT_FOLDER, products.filename), product[0])
+        result = get_visibility_of_products(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
+            PRODUCT_FOLDER, products.filename), product[0], os.path.join(FILTER_FOLDER, filt.filename))
 
         # Remove files
         os.remove(os.path.join(MODEL_FOLDER, model.filename))
         os.remove(os.path.join(PRODUCT_FOLDER, products.filename))
+        os.remove(os.path.join(FILTER_FOLDER, filt.filename))
 
         # Return result
         return str(result)
@@ -272,27 +255,29 @@ def controversy_route():
     # Get files
     model = request.files['model']
     products = request.files['products']
-    features = request.form.getlist('features')
-    features = [x.strip() for x in features[0].split(',')]
+    filt = request.files['filter']
+    features = request.files['features']
 
     # Check if files are provided
-    if model.filename != '' and products.filename != '':
+    if model.filename != '' and products.filename != '' and filt.filename != '' and features.filename != '':
 
         # Save files
         model.save(os.path.join(MODEL_FOLDER, model.filename))
         products.save(os.path.join(PRODUCT_FOLDER, products.filename))
+        filt.save(os.path.join(FILTER_FOLDER, filt.filename))
+        features.save(os.path.join(PRODUCT_FOLDER, features.filename))
 
-        # Result
-        result = controversy(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
-            PRODUCT_FOLDER, products.filename), features)
+        result = get_controversy_of_features(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
+            PRODUCT_FOLDER, products.filename), os.path.join(FILTER_FOLDER, filt.filename), os.path.join(PRODUCT_FOLDER, features.filename))
 
         # Remove files
         os.remove(os.path.join(MODEL_FOLDER, model.filename))
         os.remove(os.path.join(PRODUCT_FOLDER, products.filename))
+        os.remove(os.path.join(FILTER_FOLDER, filt.filename))
+        os.remove(os.path.join(PRODUCT_FOLDER, features.filename))
 
         # Return result
         return str(result)
-
     # If no file is provided
     else:
         return 'No file uploaded'
@@ -303,21 +288,24 @@ def global_controversy_route():
     # Get files
     model = request.files['model']
     products = request.files['products']
+    filt = request.files['filter']
 
     # Check if files are provided
-    if model.filename != '' and products.filename != '':
+    if model.filename != '' and products.filename != '' and filt.filename != '':
 
         # Save files
         model.save(os.path.join(MODEL_FOLDER, model.filename))
         products.save(os.path.join(PRODUCT_FOLDER, products.filename))
+        filt.save(os.path.join(FILTER_FOLDER, filt.filename))
 
         # Result
-        result = global_controversy(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
-            PRODUCT_FOLDER, products.filename))
+        result = get_global_controversy_of_features(os.path.join(MODEL_FOLDER, model.filename), os.path.join(
+            PRODUCT_FOLDER, products.filename), os.path.join(FILTER_FOLDER, filt.filename))
 
         # Remove files
         os.remove(os.path.join(MODEL_FOLDER, model.filename))
         os.remove(os.path.join(PRODUCT_FOLDER, products.filename))
+        os.remove(os.path.join(FILTER_FOLDER, filt.filename))
 
         # Return result
         return str(result)

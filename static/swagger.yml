@@ -6,46 +6,9 @@ info:
 servers:
   - url: https://splc23-analysis-operations.onrender.com/
     description: Render.com server
-  - url: http://localhost:5000/
+  - url: http://127.0.0.1:5000/
     description: Local server
 paths:
-  /api/v1/recommendations/validate:
-    post:
-      summary: Check validity of recommendation objects
-      requestBody:
-        required: true
-        content:
-          multipart/form-data:
-            schema:
-              type: object
-              properties:
-                model:
-                  type: string
-                  format: binary
-                products:
-                  type: string
-                  format: binary
-                query:
-                  type: string
-                  format: binary
-              required:
-                - model
-                - products
-                - query
-      responses:
-        '200':
-          description: Objects are valid
-        '404':
-          description: Objects are not valid
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-      tags:
-        - Recommendations
   /api/v1/recommendations/:
     post:
       summary: Recommend products based on a query
@@ -62,12 +25,16 @@ paths:
                 products:
                   type: string
                   format: binary
+                filter:
+                  type: string
+                  format: binary
                 query:
                   type: string
                   format: binary
               required:
                 - model
                 - products
+                - filter
                 - query
       responses:
         '200':
@@ -99,13 +66,16 @@ paths:
                 products:
                   type: string
                   format: binary
+                filter:
+                  type: string
+                  format: binary
                 features:
-                  type: array
-                  items:
-                    type: string
+                  type: string
+                  format: binary
               required:
                 - model
                 - products
+                - filter
                 - features
       responses:
         '200':
@@ -137,13 +107,16 @@ paths:
                 products:
                   type: string
                   format: binary
+                filter:
+                  type: string
+                  format: binary
                 features:
-                  type: array
-                  items:
-                    type: string
+                  type: string
+                  format: binary
               required:
                 - model
                 - products
+                - filter
                 - features
       responses:
         '200':
@@ -175,9 +148,13 @@ paths:
                 products:
                   type: string
                   format: binary
+                filter:
+                  type: string
+                  format: binary
               required:
                 - model
                 - products
+                - filter
       responses:
         '200':
           description: Accessibility %
@@ -208,11 +185,15 @@ paths:
                 products:
                   type: string
                   format: binary
+                filter:
+                  type: string
+                  format: binary
                 product:
                   type: string
               required:
                 - model
                 - products
+                - filter
                 - product
       responses:
         '200':
@@ -244,9 +225,13 @@ paths:
                 products:
                   type: string
                   format: binary
+                filter:
+                  type: string
+                  format: binary
               required:
                 - model
                 - products
+                - filter
       responses:
         '200':
           description: Catalog Coverage %
@@ -277,11 +262,15 @@ paths:
                 products:
                   type: string
                   format: binary
+                filter:
+                  type: string
+                  format: binary
                 product:
                   type: string
               required:
                 - model
                 - products
+                - filter
                 - product
       responses:
         '200':
@@ -313,13 +302,16 @@ paths:
                 products:
                   type: string
                   format: binary
+                filter:
+                  type: string
+                  format: binary
                 features:
-                  type: array
-                  items:
-                    type: string
+                  type: string
+                  format: binary
               required:
                 - model
                 - products
+                - filter
                 - features
       responses:
         '200':
@@ -351,9 +343,13 @@ paths:
                 products:
                   type: string
                   format: binary
+                filter:
+                  type: string
+                  format: binary
               required:
                 - model
                 - products
+                - filter
       responses:
         '200':
           description: Global controversy %

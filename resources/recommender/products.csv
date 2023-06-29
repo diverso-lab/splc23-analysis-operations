@@ -1,8 +1,8 @@
-product=p1,camera=true,goal=true,lightweight=false,exchangelens=true,waterproof=true,landscape=true,portrait=true,sports=true
-product=p2,camera=true,goal=true,lightweight=true,exchangelens=false,waterproof=false,landscape=true,portrait=true,sports=false
-product=p3,camera=true,goal=true,lightweight=false,exchangelens=true,waterproof=true,landscape=true,portrait=false,sports=true
-product=p4,camera=true,goal=true,lightweight=true,exchangelens=true,waterproof=true,landscape=true,portrait=true,sports=false
-product=p5,camera=true,goal=true,lightweight=true,exchangelens=false,waterproof=false,landscape=true,portrait=false,sports=false
-product=p6,camera=true,goal=true,lightweight=false,exchangelens=false,waterproof=true,landscape=true,portrait=false,sports=true
-product=p7,camera=true,goal=true,lightweight=false,exchangelens=false,waterproof=false,landscape=true,portrait=false,sports=false
-product=p8,camera=true,goal=true,lightweight=true,exchangelens=false,waterproof=true,landscape=true,portrait=true,sports=false
+product=p1,accumulator=h,resolution=h,fps=h,weight=h,mount=t1,isolation=h,7
+product=p2,accumulator=h,resolution=h,fps=a,weight=l,mount=no,isolation=l,5
+product=p3,accumulator=h,resolution=a,fps=h,weight=a,mount=t2,isolation=h,6
+product=p4,accumulator=h,resolution=h,fps=a,weight=l,mount=t1,isolation=h,7
+product=p5,accumulator=h,resolution=a,fps=a,weight=l,mount=no,isolation=l,4
+product=p6,accumulator=h,resolution=a,fps=h,weight=a,mount=t1,isolation=h,5
+product=p7,accumulator=h,resolution=l,fps=l,weight=l,mount=no,isolation=l,3
+product=p8,accumulator=h,resolution=h,fps=a,weight=l,mount=no,isolation=h,6
